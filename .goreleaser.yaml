@@ -1,0 +1,140 @@
+# Local snapshot (Linux amd64):  goreleaser release --snapshot --clean
+# All platforms (CI / Docker):    make release-cross
+#   or: GORELEASER_CROSS=1 goreleaser release --snapshot --clean
+#
+# macOS and linux/arm64 need cross toolchains (goreleaser-cross image).
+
+version: 2
+
+project_name: kiri
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: kiri-linux-amd64
+    main: .
+    binary: kiri
+    goos:
+      - linux
+    goarch:
+      - amd64
+    env:
+      - CGO_ENABLED=1
+      - CC=gcc
+    flags:
+      - -trimpath
+    tags:
+      - netgo
+      - osusergo
+    ldflags:
+      - -s -w
+      - -linkmode=external
+      - -extldflags=-static
+
+  - id: kiri-linux-arm64
+    skip: '{{ ne (envOrDefault "GORELEASER_CROSS" "0") "1" }}'
+    main: .
+    binary: kiri
+    goos:
+      - linux
+    goarch:
+      - arm64
+    env:
+      - CGO_ENABLED=1
+      - CC=aarch64-linux-gnu-gcc
+    flags:
+      - -trimpath
+    tags:
+      - netgo
+      - osusergo
+    ldflags:
+      - -s -w
+      - -linkmode=external
+      - -extldflags=-static
+
+  - id: kiri-darwin-amd64
+    skip: '{{ ne (envOrDefault "GORELEASER_CROSS" "0") "1" }}'
+    main: .
+    binary: kiri
+    goos:
+      - darwin
+    goarch:
+      - amd64
+    env:
+      - CGO_ENABLED=1
+      - CC=o64-clang
+      - CXX=o64-clang++
+    flags:
+      - -trimpath
+    tags:
+      - netgo
+      - osusergo
+    ldflags:
+      - -s -w
+
+  - id: kiri-darwin-arm64
+    skip: '{{ ne (envOrDefault "GORELEASER_CROSS" "0") "1" }}'
+    main: .
+    binary: kiri
+    goos:
+      - darwin
+    goarch:
+      - arm64
+    env:
+      - CGO_ENABLED=1
+      - CC=oa64-clang
+      - CXX=oa64-clang++
+    flags:
+      - -trimpath
+    tags:
+      - netgo
+      - osusergo
+    ldflags:
+      - -s -w
+
+archives:
+  - id: default
+    ids:
+      - kiri-linux-amd64
+      - kiri-linux-arm64
+      - kiri-darwin-amd64
+      - kiri-darwin-arm64
+    formats:
+      - tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - README.md
+      - LICENSE
+
+checksum:
+  name_template: checksums.txt
+  algorithm: sha256
+
+nfpms:
+  - id: kiri-deb
+    ids:
+      - kiri-linux-amd64
+      - kiri-linux-arm64
+    package_name: kiri
+    vendor: Pavel Antonov
+    maintainer: Pavel Antonov <freislot@gmail.com>
+    homepage: https://github.com/freislot/kiri
+    description: TUI панель статуса и мониторинга полива растений
+    license: MIT
+    formats:
+      - deb
+    bindir: /usr/bin
+    contents:
+      - src: doc/en/kiri.1
+        dst: /usr/share/man/man1/kiri.1
+        file_info:
+          mode: 0644
+      - src: doc/ru/kiri.1
+        dst: /usr/share/man/ru/man1/kiri.1
+        file_info:
+          mode: 0644
+
+changelog:
+  disable: true
