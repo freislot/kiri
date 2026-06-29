@@ -5,6 +5,7 @@
 [![Go Version](https://img.shields.io/badge/Go-1.22+-00ADD8?style=flat-square&logo=go)](https://go.dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-linux%20%7C%20macos-lightgrey?style=flat-square)](#)
+[!Built for Terminal](https://img.shields.io/badge/built_for-terminal-111111?logo=gnubash&logoColor=white)](#)
 
 [English] | [Читать на русском](README.ru.md)
 
@@ -85,7 +86,7 @@ CGO_ENABLED=1 go build -o kiri .
 
 ### Pre-compiled Binaries
 
-You can download a standalone binary or a `.deb` package directly from the **Releases** page.
+You can download a standalone binary or a `.deb` package directly from the **[Releases](https://github.com/freislot/kiri/releases)** page.
 
 To install the `.deb` package on Ubuntu/Debian:
 
