@@ -5,7 +5,7 @@
 [![Go Version](https://img.shields.io/badge/Go-1.22+-00ADD8?style=flat-square&logo=go)](https://go.dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-linux%20%7C%20macos-lightgrey?style=flat-square)](#)
-[!Built for Terminal](https://img.shields.io/badge/built_for-terminal-111111?logo=gnubash&logoColor=white)](#)
+[![Built for Terminal](https://img.shields.io/badge/built_for-terminal-111111?logo=gnubash&logoColor=white)](#)
 
 [Read in English](README.md) | [Русский]
 
